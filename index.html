@@ -1,0 +1,67 @@
+<!doctype html>
+<html dir="ltr" lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Tone tester</title>
+    <style>
+      body {
+        background: #FFFFFF;
+        margin: 5pt;
+      }
+      button {
+		  background-image: linear-gradient(#0dccea, #0d70ea);
+		  border: 0;
+		  border-radius: 4px;
+		  box-shadow: rgba(0, 0, 0, .3) 0 3px 10px;
+		  box-sizing: border-box;
+		  color: #fff;
+		  cursor: pointer;
+		  font-family: Montserrat,sans-serif;
+		  font-size: .9em;
+		  margin: 5px;
+		  padding: 10px 15px;
+		  text-align: center;
+		  user-select: none;
+		  -webkit-user-select: none;
+		  touch-action: manipulation;
+      }
+    </style>
+  </head>
+  <body>
+  	<audio id="tone1" src="tones/1.wav" preload="auto"></audio>
+ 	<audio id="tone2" src="tones/2.wav" preload="auto"></audio>
+ 	<audio id="tone3" src="tones/3.wav" preload="auto"></audio>
+ 	<audio id="tone4" src="tones/4.wav" preload="auto"></audio>
+ 	<audio id="tone5" src="tones/5.wav" preload="auto"></audio>
+ 	<audio id="tone6" src="tones/6.wav" preload="auto"></audio>
+ 	<audio id="tone7" src="tones/7.wav" preload="auto"></audio>
+ 	<audio id="tone8" src="tones/8.wav" preload="auto"></audio>
+ 	<audio id="tone9" src="tones/9.wav" preload="auto"></audio>
+ 	<audio id="tonex" src="tones/x.wav" preload="auto"></audio>
+
+  	<button onclick="play_tone(1);">Tone 1</button>
+ 	<button onclick="play_tone(2);">Tone 2</button>
+ 	<button onclick="play_tone(3);">Tone 3</button>
+ 	<button onclick="play_tone(4);">Tone 4</button>
+ 	<button onclick="play_tone(5);">Tone 5</button>
+ 	<button onclick="play_tone(6);">Tone 6</button>
+ 	<button onclick="play_tone(7);">Tone 7</button>
+ 	<button onclick="play_tone(8);">Tone 8</button>
+ 	<button onclick="play_tone(9);">Tone 9</button>
+
+  	<script>
+  		function play_tone(c) {
+  			var tonec = document.getElementById("tone" + c);
+			var tonex = document.getElementById("tonex");
+			tonex.pause();
+			tonec.addEventListener("ended", function() {
+			   tonex.play();
+			});
+			tonec.play();
+  		}
+  	</script>
+  </body>
+</html>
+
+
+
