@@ -28,7 +28,7 @@
     </style>
   </head>
   <body>
-  	<audio id="tone1" src="tones/1.wav" preload="auto"></audio>
+  <audio id="tone1" src="tones/1.wav" preload="auto"></audio>
  	<audio id="tone2" src="tones/2.wav" preload="auto"></audio>
  	<audio id="tone3" src="tones/3.wav" preload="auto"></audio>
  	<audio id="tone4" src="tones/4.wav" preload="auto"></audio>
@@ -38,8 +38,17 @@
  	<audio id="tone8" src="tones/8.wav" preload="auto"></audio>
  	<audio id="tone9" src="tones/9.wav" preload="auto"></audio>
  	<audio id="tonex" src="tones/x.wav" preload="auto"></audio>
-
-  	<button onclick="play_tone(1);">Tone 1</button>
+ 	<audio id="tone1d" src="tones/1d.wav" preload="auto"></audio>
+ 	<audio id="tone2d" src="tones/2d.wav" preload="auto"></audio>
+ 	<audio id="tone3d" src="tones/3d.wav" preload="auto"></audio>
+ 	<audio id="tone4d" src="tones/4d.wav" preload="auto"></audio>
+ 	<audio id="tone5d" src="tones/5d.wav" preload="auto"></audio>
+ 	<audio id="tone6d" src="tones/6d.wav" preload="auto"></audio>
+ 	<audio id="tone7d" src="tones/7d.wav" preload="auto"></audio>
+ 	<audio id="tone8d" src="tones/8d.wav" preload="auto"></audio>
+ 	
+ 	Two tones after each other<br/>
+  <button onclick="play_tone(1);">Tone 1</button>
  	<button onclick="play_tone(2);">Tone 2</button>
  	<button onclick="play_tone(3);">Tone 3</button>
  	<button onclick="play_tone(4);">Tone 4</button>
@@ -48,20 +57,33 @@
  	<button onclick="play_tone(7);">Tone 7</button>
  	<button onclick="play_tone(8);">Tone 8</button>
  	<button onclick="play_tone(9);">Tone 9</button>
+ 	<hr/>
+ 	Dual tones<br/>
+  <button onclick="play_tone_duo(1);">Tone 1</button>
+ 	<button onclick="play_tone_duo(2);">Tone 2</button>
+ 	<button onclick="play_tone_duo(3);">Tone 3</button>
+ 	<button onclick="play_tone_duo(4);">Tone 4</button>
+ 	<button onclick="play_tone_duo(5);">Tone 5</button>
+ 	<button onclick="play_tone_duo(6);">Tone 6</button>
+ 	<button onclick="play_tone_duo(7);">Tone 7</button>
+ 	<button onclick="play_tone_duo(8);">Tone 8</button>
+ 	<button onclick="play_tone_duo(9);">Tone 9</button>
 
   	<script>
   		function play_tone(c) {
   			var tonec = document.getElementById("tone" + c);
-			var tonex = document.getElementById("tonex");
-			tonex.pause();
-			tonec.addEventListener("ended", function() {
-			   tonex.play();
-			});
-			tonec.play();
+				var tonex = document.getElementById("tonex");
+				tonex.pause();
+				tonec.addEventListener("ended", function() {
+				   tonex.play();
+				});
+				tonec.play();
+  		}
+
+  		function play_tone_duo(c) {
+  			var tonec = document.getElementById("tone" + c + "d");
+				tonec.play();
   		}
   	</script>
   </body>
 </html>
-
-
-
