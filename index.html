@@ -46,6 +46,7 @@
  	<audio id="tone6d" src="tones/6d.wav" preload="auto"></audio>
  	<audio id="tone7d" src="tones/7d.wav" preload="auto"></audio>
  	<audio id="tone8d" src="tones/8d.wav" preload="auto"></audio>
+ 	<audio id="tone9d" src="tones/9d.wav" preload="auto"></audio>
  	
  	Two tones after each other<br/>
   <button onclick="play_tone(1);">Tone 1</button>
@@ -73,11 +74,11 @@
   		function play_tone(c) {
   			var tonec = document.getElementById("tone" + c);
 				var tonex = document.getElementById("tonex");
-				tonex.pause();
-				tonec.addEventListener("ended", function() {
-				   tonex.play();
+				tonec.pause();
+				tonex.addEventListener("ended", function() {
+				   tonec.play();
 				});
-				tonec.play();
+				tonex.play();
   		}
 
   		function play_tone_duo(c) {
