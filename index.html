@@ -176,9 +176,39 @@
       }
 
       #submit-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
         align-self: flex-start;
         background: linear-gradient(135deg, #264fc6, var(--primary-dark));
         margin-top: 4px;
+      }
+
+      #submit-button:disabled {
+        cursor: not-allowed;
+        opacity: 0.88;
+        transform: none;
+        box-shadow: none;
+      }
+
+      #submit-button[aria-busy="true"] .submit-progress-icon {
+        display: inline-block;
+      }
+
+      .submit-progress-icon {
+        display: none;
+        width: 14px;
+        height: 14px;
+        border: 2px solid rgba(255, 255, 255, 0.35);
+        border-top-color: #ffffff;
+        border-radius: 50%;
+        animation: submit-spin 0.75s linear infinite;
+      }
+
+      @keyframes submit-spin {
+        to {
+          transform: rotate(360deg);
+        }
       }
 
       @media (max-width: 640px) {
@@ -289,7 +319,10 @@
           </div>
         </div>
 
-        <button id="submit-button" type="submit">Submit</button>
+        <button id="submit-button" type="submit" aria-busy="false">
+          <span id="submit-button-label">Submit</span>
+          <span class="submit-progress-icon" aria-hidden="true"></span>
+        </button>
       </form>
     </main>
 
@@ -366,6 +399,7 @@
         var form = document.getElementById("tone-form");
         var aboutSection = document.getElementById("about-section");
         var submitButton = document.getElementById("submit-button");
+        var submitButtonLabel = document.getElementById("submit-button-label");
         var dateField = document.getElementById("submitted-date");
         var aboutVisible = false;
         var isSubmitting = false;
@@ -386,7 +420,7 @@
           if (!aboutVisible) {
             aboutVisible = true;
             aboutSection.classList.add("visible");
-            submitButton.textContent = "Submit form";
+            submitButtonLabel.textContent = "Submit form";
             return;
           }
 
@@ -398,6 +432,8 @@
 
           isSubmitting = true;
           submitButton.disabled = true;
+          submitButton.setAttribute("aria-busy", "true");
+          submitButtonLabel.textContent = "Submitting…";
 
           fetch(form.action, {
             method: "POST",
@@ -414,10 +450,14 @@
 
               isSubmitting = false;
               submitButton.disabled = false;
+              submitButton.setAttribute("aria-busy", "false");
+              submitButtonLabel.textContent = "Submit form";
             })
             .catch(function () {
               isSubmitting = false;
               submitButton.disabled = false;
+              submitButton.setAttribute("aria-busy", "false");
+              submitButtonLabel.textContent = "Submit form";
             });
         });
       }
