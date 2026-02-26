@@ -2,142 +2,296 @@
 <html dir="ltr" lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Tone tester</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tone perception test</title>
     <style>
-      body {
-        background: #FFFFFF;
-        margin: 5pt;
+      :root {
+        color-scheme: light;
+        --bg: #f3f6ff;
+        --panel: #ffffff;
+        --text: #1d2433;
+        --muted: #5b6478;
+        --border: #dbe2f2;
+        --primary: #3b6df6;
+        --primary-dark: #2f58c5;
+        --shadow: 0 18px 40px rgba(32, 53, 108, 0.12);
       }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: radial-gradient(circle at 20% 0%, #e6eeff, var(--bg) 55%);
+        color: var(--text);
+        padding: 24px;
+      }
+
+      .page {
+        max-width: 760px;
+        margin: 0 auto;
+      }
+
+      .intro,
+      .tone-form {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        box-shadow: var(--shadow);
+      }
+
+      .intro {
+        padding: 24px;
+        margin-bottom: 18px;
+      }
+
+      .intro h1 {
+        margin: 0 0 12px;
+        font-size: clamp(1.4rem, 2.2vw, 1.85rem);
+      }
+
+      .intro p {
+        margin: 0 0 10px;
+        line-height: 1.55;
+        color: var(--muted);
+      }
+
+      .intro p:last-child {
+        margin-bottom: 0;
+      }
+
       .tone-form {
         display: flex;
         flex-direction: column;
-        gap: 8px;
-        max-width: 320px;
+        gap: 14px;
+        padding: 24px;
       }
+
+      .tone-form h2 {
+        margin: 0;
+        font-size: 1.1rem;
+      }
+
+      #tone-rows {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+      }
+
       .tone-row {
         display: flex;
-        align-items: center;
-        gap: 10px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 10px 12px;
+        background: #fafbff;
       }
+
+      .tone-row label {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        color: var(--muted);
+        font-size: 0.94rem;
+      }
+
+      .tone-row button {
+        width: 100%;
+      }
+
+      input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        accent-color: var(--primary);
+        cursor: pointer;
+      }
+
       .about-section {
         display: none;
-        border-top: 1px solid #ddd;
-        margin-top: 8px;
-        padding-top: 8px;
+        border-top: 1px solid var(--border);
+        margin-top: 6px;
+        padding-top: 14px;
       }
+
       .about-section.visible {
         display: block;
       }
+
+      .about-section h3 {
+        margin: 0 0 12px;
+      }
+
       .about-row {
         display: flex;
         flex-direction: column;
-        gap: 4px;
-        margin-bottom: 8px;
+        gap: 6px;
+        margin-bottom: 12px;
       }
+
+      .about-row label {
+        color: var(--muted);
+        font-size: 0.92rem;
+      }
+
       .about-row input,
       .about-row select {
-        padding: 5px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 10px 12px;
+        font-size: 0.95rem;
+        color: var(--text);
+        background: #fff;
       }
+
+      .about-row input:focus,
+      .about-row select:focus {
+        outline: 2px solid rgba(59, 109, 246, 0.25);
+        border-color: var(--primary);
+      }
+
       button {
-        background-image: linear-gradient(#0dccea, #0d70ea);
         border: 0;
-        border-radius: 4px;
-        box-shadow: rgba(0, 0, 0, .3) 0 3px 10px;
-        box-sizing: border-box;
+        border-radius: 10px;
+        background: linear-gradient(135deg, var(--primary), #6e91ff);
         color: #fff;
         cursor: pointer;
-        font-family: Montserrat,sans-serif;
-        font-size: .9em;
-        margin: 0;
-        padding: 10px 15px;
-        text-align: center;
-        user-select: none;
-        -webkit-user-select: none;
-        touch-action: manipulation;
+        font-size: 0.92rem;
+        font-weight: 600;
+        padding: 10px 14px;
+        transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.15s ease;
+      }
+
+      button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 8px 18px rgba(59, 109, 246, 0.34);
+      }
+
+      button:active {
+        transform: translateY(0);
+      }
+
+      #submit-button {
+        align-self: flex-start;
+        background: linear-gradient(135deg, #264fc6, var(--primary-dark));
+        margin-top: 4px;
+      }
+
+      @media (max-width: 640px) {
+        body {
+          padding: 14px;
+        }
+
+        .intro,
+        .tone-form {
+          padding: 16px;
+          border-radius: 12px;
+        }
+
+        .tone-row {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        #tone-rows {
+          grid-template-columns: 1fr;
+        }
       }
     </style>
   </head>
   <body>
-    <audio id="tone1d" src="tones/1d.wav" preload="auto"></audio>
-    <audio id="tone2d" src="tones/2d.wav" preload="auto"></audio>
-    <audio id="tone3d" src="tones/3d.wav" preload="auto"></audio>
-    <audio id="tone4d" src="tones/4d.wav" preload="auto"></audio>
-    <audio id="tone5d" src="tones/5d.wav" preload="auto"></audio>
-    <audio id="tone6d" src="tones/6d.wav" preload="auto"></audio>
-    <audio id="tone7d" src="tones/7d.wav" preload="auto"></audio>
-    <audio id="tone8d" src="tones/8d.wav" preload="auto"></audio>
-    <audio id="tone9d" src="tones/9d.wav" preload="auto"></audio>
+    <main class="page">
+      <section class="intro">
+        <h1>Tone perception test</h1>
+        <p>This form supports research into how the human brain perceives different noise frequencies while under the influence of psychoactive substances, such as cannabis, psilocybin, LSD, and related compounds.</p>
+        <p>For the most reliable results, we recommend using a high-quality audio system. Click each tone button as many times as needed. If you perceive a single continuous tone, select the checkbox. If you perceive a change in the tone midway, leave the checkbox unselected.</p>
+      </section>
 
-    <form
-      id="tone-form"
-      class="tone-form"
-      method="post"
-      action="https://script.google.com/macros/s/AKfycbyrf0FGkVvGaLAFwXQAlMY79_hIGB7fPmCBHa1JgkaChBEe52Lm9vYDXeKA4q1Pn6U/exec"
-    >
-      <div>Dual tones</div>
+      <audio id="tone1d" src="tones/1d.wav" preload="auto"></audio>
+      <audio id="tone2d" src="tones/2d.wav" preload="auto"></audio>
+      <audio id="tone3d" src="tones/3d.wav" preload="auto"></audio>
+      <audio id="tone4d" src="tones/4d.wav" preload="auto"></audio>
+      <audio id="tone5d" src="tones/5d.wav" preload="auto"></audio>
+      <audio id="tone6d" src="tones/6d.wav" preload="auto"></audio>
+      <audio id="tone7d" src="tones/7d.wav" preload="auto"></audio>
+      <audio id="tone8d" src="tones/8d.wav" preload="auto"></audio>
+      <audio id="tone9d" src="tones/9d.wav" preload="auto"></audio>
 
-      <div id="tone-rows"></div>
+      <form
+        id="tone-form"
+        class="tone-form"
+        method="post"
+        action="https://script.google.com/macros/s/AKfycbyrf0FGkVvGaLAFwXQAlMY79_hIGB7fPmCBHa1JgkaChBEe52Lm9vYDXeKA4q1Pn6U/exec"
+      >
+        <h2>Dual tones</h2>
 
-      <input type="hidden" id="submitted-date" name="date" value="">
+        <div id="tone-rows"></div>
 
-      <div id="about-section" class="about-section">
-        <div><strong>About you</strong></div>
+        <input type="hidden" id="submitted-date" name="date" value="">
 
-        <div class="about-row">
-          <label for="email">Email address (optional, we may send you the study results)</label>
-          <input type="text" id="email" name="email">
+        <div id="about-section" class="about-section">
+          <h3>About you</h3>
+
+          <div class="about-row">
+            <label for="email">Email address (optional, we may send you the study results)</label>
+            <input type="text" id="email" name="email">
+          </div>
+
+          <div class="about-row">
+            <label for="substance">Are you currently under the influence of any of the following substances?</label>
+            <select id="substance" name="substance">
+              <option value=""></option>
+              <option value="Cannabis">Cannabis</option>
+              <option value="Psilocybin">Psilocybin</option>
+              <option value="LSD">LSD</option>
+              <option value="DMT">DMT</option>
+              <option value="Mescaline">Mescaline</option>
+              <option value="Others">Others</option>
+              <option value="Multiple substances">Multiple substances</option>
+            </select>
+          </div>
+
+          <div class="about-row">
+            <label for="speakers">How are you listening to the tones?</label>
+            <select id="speakers" name="speakers">
+              <option value=""></option>
+              <option value="Laptop speakers">Laptop speakers</option>
+              <option value="Low end headphones">Low end headphones</option>
+              <option value="Quality headphones">Quality headphones</option>
+              <option value="Large High quality speakers">Large High quality speakers</option>
+              <option value="Hi end sound system">Hi end sound system</option>
+            </select>
+          </div>
+
+          <div class="about-row">
+            <label for="age">What is your age range?</label>
+            <select id="age" name="age">
+              <option value=""></option>
+              <option value="20 or younger">20 or younger</option>
+              <option value="20-35">20-35</option>
+              <option value="35-55">35-55</option>
+              <option value="Over 55">Over 55</option>
+            </select>
+          </div>
+
+          <div class="about-row">
+            <label for="gender">What is your gender?</label>
+            <select id="gender" name="gender">
+              <option value=""></option>
+              <option value="Female">Female</option>
+              <option value="Male">Male</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
         </div>
 
-        <div class="about-row">
-          <label for="substance">Are you currently under the influence of any of the following substances?</label>
-          <select id="substance" name="substance">
-            <option value=""></option>
-            <option value="Cannabis">Cannabis</option>
-            <option value="Psilocybin">Psilocybin</option>
-            <option value="LSD">LSD</option>
-            <option value="DMT">DMT</option>
-            <option value="Mescaline">Mescaline</option>
-            <option value="Others">Others</option>
-            <option value="Multiple substances">Multiple substances</option>
-          </select>
-        </div>
-
-        <div class="about-row">
-          <label for="speakers">How are you listening to the tones?</label>
-          <select id="speakers" name="speakers">
-            <option value=""></option>
-            <option value="Laptop speakers">Laptop speakers</option>
-            <option value="Low end headphones">Low end headphones</option>
-            <option value="Quality headphones">Quality headphones</option>
-            <option value="Large High quality speakers">Large High quality speakers</option>
-            <option value="Hi end sound system">Hi end sound system</option>
-          </select>
-        </div>
-
-        <div class="about-row">
-          <label for="age">What is your age range?</label>
-          <select id="age" name="age">
-            <option value=""></option>
-            <option value="20 or younger">20 or younger</option>
-            <option value="20-35">20-35</option>
-            <option value="35-55">35-55</option>
-            <option value="Over 55">Over 55</option>
-          </select>
-        </div>
-
-        <div class="about-row">
-          <label for="gender">What is your gender?</label>
-          <select id="gender" name="gender">
-            <option value=""></option>
-            <option value="Female">Female</option>
-            <option value="Male">Male</option>
-            <option value="Other">Other</option>
-          </select>
-        </div>
-      </div>
-
-      <button id="submit-button" type="submit">Submit</button>
-    </form>
+        <button id="submit-button" type="submit">Submit</button>
+      </form>
+    </main>
 
     <script>
       function play_tone_duo(c) {
@@ -166,22 +320,31 @@
           var row = document.createElement("div");
           row.className = "tone-row";
 
+          var label = document.createElement("label");
+          label.htmlFor = "checkbox-tone" + toneId;
+
           var checkbox = document.createElement("input");
           checkbox.type = "checkbox";
           checkbox.name = "tone" + toneId;
           checkbox.id = "checkbox-tone" + toneId;
 
+          var labelText = document.createElement("span");
+          labelText.textContent = "Single continuous tone";
+
+          label.appendChild(checkbox);
+          label.appendChild(labelText);
+
           var button = document.createElement("button");
           button.id = "tone" + toneId;
           button.type = "button";
-          button.textContent = "Tone " + labelNumber;
+          button.textContent = "Play tone " + labelNumber;
           button.onclick = (function (id) {
             return function () {
               play_tone_duo(id);
             };
           })(toneId);
 
-          row.appendChild(checkbox);
+          row.appendChild(label);
           row.appendChild(button);
           rowsContainer.appendChild(row);
         }
