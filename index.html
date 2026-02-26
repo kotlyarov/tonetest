@@ -368,10 +368,22 @@
         var submitButton = document.getElementById("submit-button");
         var dateField = document.getElementById("submitted-date");
         var aboutVisible = false;
+        var isSubmitting = false;
+
+        function showThankYouLabel() {
+          var thankYouLabel = document.createElement("span");
+          thankYouLabel.id = "submit-thank-you";
+          thankYouLabel.textContent = "Thank you";
+          thankYouLabel.style.fontWeight = "600";
+          thankYouLabel.style.color = "#2f58c5";
+
+          submitButton.replaceWith(thankYouLabel);
+        }
 
         form.addEventListener("submit", function (event) {
+          event.preventDefault();
+
           if (!aboutVisible) {
-            event.preventDefault();
             aboutVisible = true;
             aboutSection.classList.add("visible");
             submitButton.textContent = "Submit form";
@@ -379,6 +391,34 @@
           }
 
           dateField.value = getLocalDateTimeString();
+
+          if (isSubmitting) {
+            return;
+          }
+
+          isSubmitting = true;
+          submitButton.disabled = true;
+
+          fetch(form.action, {
+            method: "POST",
+            body: new FormData(form)
+          })
+            .then(function (response) {
+              return response.json();
+            })
+            .then(function (data) {
+              if (data && data.result === "success" && typeof data.row === "number") {
+                showThankYouLabel();
+                return;
+              }
+
+              isSubmitting = false;
+              submitButton.disabled = false;
+            })
+            .catch(function () {
+              isSubmitting = false;
+              submitButton.disabled = false;
+            });
         });
       }
 
