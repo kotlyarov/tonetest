@@ -57,42 +57,7 @@
     >
       <div>Dual tones</div>
 
-      <div class="tone-row">
-        <button id="tone1" type="button" onclick="play_tone_duo(1);">Tone 1</button>
-        <label><input type="checkbox" name="tone1" id="checkbox-tone1"> tone1</label>
-      </div>
-      <div class="tone-row">
-        <button id="tone2" type="button" onclick="play_tone_duo(2);">Tone 2</button>
-        <label><input type="checkbox" name="tone2" id="checkbox-tone2"> tone2</label>
-      </div>
-      <div class="tone-row">
-        <button id="tone3" type="button" onclick="play_tone_duo(3);">Tone 3</button>
-        <label><input type="checkbox" name="tone3" id="checkbox-tone3"> tone3</label>
-      </div>
-      <div class="tone-row">
-        <button id="tone4" type="button" onclick="play_tone_duo(4);">Tone 4</button>
-        <label><input type="checkbox" name="tone4" id="checkbox-tone4"> tone4</label>
-      </div>
-      <div class="tone-row">
-        <button id="tone5" type="button" onclick="play_tone_duo(5);">Tone 5</button>
-        <label><input type="checkbox" name="tone5" id="checkbox-tone5"> tone5</label>
-      </div>
-      <div class="tone-row">
-        <button id="tone6" type="button" onclick="play_tone_duo(6);">Tone 6</button>
-        <label><input type="checkbox" name="tone6" id="checkbox-tone6"> tone6</label>
-      </div>
-      <div class="tone-row">
-        <button id="tone7" type="button" onclick="play_tone_duo(7);">Tone 7</button>
-        <label><input type="checkbox" name="tone7" id="checkbox-tone7"> tone7</label>
-      </div>
-      <div class="tone-row">
-        <button id="tone8" type="button" onclick="play_tone_duo(8);">Tone 8</button>
-        <label><input type="checkbox" name="tone8" id="checkbox-tone8"> tone8</label>
-      </div>
-      <div class="tone-row">
-        <button id="tone9" type="button" onclick="play_tone_duo(9);">Tone 9</button>
-        <label><input type="checkbox" name="tone9" id="checkbox-tone9"> tone9</label>
-      </div>
+      <div id="tone-rows"></div>
 
       <button type="submit">Submit</button>
     </form>
@@ -102,6 +67,50 @@
         var tonec = document.getElementById("tone" + c + "d");
         tonec.play();
       }
+
+      function shuffle(array) {
+        for (var i = array.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var temp = array[i];
+          array[i] = array[j];
+          array[j] = temp;
+        }
+        return array;
+      }
+
+      function renderToneRows() {
+        var rowsContainer = document.getElementById("tone-rows");
+        var toneIds = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+        var shuffledToneIds = shuffle(toneIds.slice());
+
+        for (var labelNumber = 1; labelNumber <= shuffledToneIds.length; labelNumber++) {
+          var toneId = shuffledToneIds[labelNumber - 1];
+
+          var row = document.createElement("div");
+          row.className = "tone-row";
+
+          var checkbox = document.createElement("input");
+          checkbox.type = "checkbox";
+          checkbox.name = "tone" + toneId;
+          checkbox.id = "checkbox-tone" + toneId;
+
+          var button = document.createElement("button");
+          button.id = "tone" + toneId;
+          button.type = "button";
+          button.textContent = "Tone " + labelNumber;
+          button.onclick = (function (id) {
+            return function () {
+              play_tone_duo(id);
+            };
+          })(toneId);
+
+          row.appendChild(checkbox);
+          row.appendChild(button);
+          rowsContainer.appendChild(row);
+        }
+      }
+
+      renderToneRows();
     </script>
   </body>
 </html>
