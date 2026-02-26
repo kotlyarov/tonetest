@@ -19,6 +19,25 @@
         align-items: center;
         gap: 10px;
       }
+      .about-section {
+        display: none;
+        border-top: 1px solid #ddd;
+        margin-top: 8px;
+        padding-top: 8px;
+      }
+      .about-section.visible {
+        display: block;
+      }
+      .about-row {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        margin-bottom: 8px;
+      }
+      .about-row input,
+      .about-row select {
+        padding: 5px;
+      }
       button {
         background-image: linear-gradient(#0dccea, #0d70ea);
         border: 0;
@@ -50,16 +69,74 @@
     <audio id="tone9d" src="tones/9d.wav" preload="auto"></audio>
 
     <form
+      id="tone-form"
       class="tone-form"
       method="post"
       action="https://script.google.com/macros/s/AKfycbyrf0FGkVvGaLAFwXQAlMY79_hIGB7fPmCBHa1JgkaChBEe52Lm9vYDXeKA4q1Pn6U/exec"
-      onsubmit="return confirm('Submit selected tones?');"
     >
       <div>Dual tones</div>
 
       <div id="tone-rows"></div>
 
-      <button type="submit">Submit</button>
+      <input type="hidden" id="submitted-date" name="date" value="">
+
+      <div id="about-section" class="about-section">
+        <div><strong>About you</strong></div>
+
+        <div class="about-row">
+          <label for="email">E-mail (opcjonalnie, możemy wysłać wyniki badania)</label>
+          <input type="text" id="email" name="email">
+        </div>
+
+        <div class="about-row">
+          <label for="substance">Czy jesteś pod wpływem którejkolwiek z poniższych substancji?</label>
+          <select id="substance" name="substance">
+            <option value=""></option>
+            <option value="Cannabis">Cannabis</option>
+            <option value="Psilocybin">Psilocybin</option>
+            <option value="LSD">LSD</option>
+            <option value="DMT">DMT</option>
+            <option value="Mescaline">Mescaline</option>
+            <option value="Others">Others</option>
+            <option value="Multiple substances">Multiple substances</option>
+          </select>
+        </div>
+
+        <div class="about-row">
+          <label for="speakers">Jak słuchasz tonów?</label>
+          <select id="speakers" name="speakers">
+            <option value=""></option>
+            <option value="Laptop speakers">Laptop speakers</option>
+            <option value="Low end headphones">Low end headphones</option>
+            <option value="Quality headphones">Quality headphones</option>
+            <option value="Large High quality speakers">Large High quality speakers</option>
+            <option value="Hi end sound system">Hi end sound system</option>
+          </select>
+        </div>
+
+        <div class="about-row">
+          <label for="age">Ile masz lat?</label>
+          <select id="age" name="age">
+            <option value=""></option>
+            <option value="20 or younger">20 or younger</option>
+            <option value="20-35">20-35</option>
+            <option value="35-55">35-55</option>
+            <option value="Over 55">Over 55</option>
+          </select>
+        </div>
+
+        <div class="about-row">
+          <label for="gender">Jaka jest Twoja płeć?</label>
+          <select id="gender" name="gender">
+            <option value=""></option>
+            <option value="Female">Female</option>
+            <option value="Male">Male</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+      </div>
+
+      <button id="submit-button" type="submit">Submit</button>
     </form>
 
     <script>
@@ -110,7 +187,40 @@
         }
       }
 
+      function getLocalDateTimeString() {
+        var now = new Date();
+        var year = now.getFullYear();
+        var month = String(now.getMonth() + 1).padStart(2, "0");
+        var day = String(now.getDate()).padStart(2, "0");
+        var hours = String(now.getHours()).padStart(2, "0");
+        var minutes = String(now.getMinutes()).padStart(2, "0");
+        var seconds = String(now.getSeconds()).padStart(2, "0");
+
+        return year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds;
+      }
+
+      function setupFormSubmit() {
+        var form = document.getElementById("tone-form");
+        var aboutSection = document.getElementById("about-section");
+        var submitButton = document.getElementById("submit-button");
+        var dateField = document.getElementById("submitted-date");
+        var aboutVisible = false;
+
+        form.addEventListener("submit", function (event) {
+          if (!aboutVisible) {
+            event.preventDefault();
+            aboutVisible = true;
+            aboutSection.classList.add("visible");
+            submitButton.textContent = "Submit form";
+            return;
+          }
+
+          dateField.value = getLocalDateTimeString();
+        });
+      }
+
       renderToneRows();
+      setupFormSubmit();
     </script>
   </body>
 </html>
