@@ -8,52 +8,100 @@
         background: #FFFFFF;
         margin: 5pt;
       }
+      .tone-form {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        max-width: 320px;
+      }
+      .tone-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
       button {
-		  background-image: linear-gradient(#0dccea, #0d70ea);
-		  border: 0;
-		  border-radius: 4px;
-		  box-shadow: rgba(0, 0, 0, .3) 0 3px 10px;
-		  box-sizing: border-box;
-		  color: #fff;
-		  cursor: pointer;
-		  font-family: Montserrat,sans-serif;
-		  font-size: .9em;
-		  margin: 5px;
-		  padding: 10px 15px;
-		  text-align: center;
-		  user-select: none;
-		  -webkit-user-select: none;
-		  touch-action: manipulation;
+        background-image: linear-gradient(#0dccea, #0d70ea);
+        border: 0;
+        border-radius: 4px;
+        box-shadow: rgba(0, 0, 0, .3) 0 3px 10px;
+        box-sizing: border-box;
+        color: #fff;
+        cursor: pointer;
+        font-family: Montserrat,sans-serif;
+        font-size: .9em;
+        margin: 0;
+        padding: 10px 15px;
+        text-align: center;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
       }
     </style>
   </head>
   <body>
-	<audio id="tone1d" src="tones/1d.wav" preload="auto"></audio>
-	<audio id="tone2d" src="tones/2d.wav" preload="auto"></audio>
-	<audio id="tone3d" src="tones/3d.wav" preload="auto"></audio>
- 	<audio id="tone4d" src="tones/4d.wav" preload="auto"></audio>
- 	<audio id="tone5d" src="tones/5d.wav" preload="auto"></audio>
- 	<audio id="tone6d" src="tones/6d.wav" preload="auto"></audio>
- 	<audio id="tone7d" src="tones/7d.wav" preload="auto"></audio>
- 	<audio id="tone8d" src="tones/8d.wav" preload="auto"></audio>
- 	<audio id="tone9d" src="tones/9d.wav" preload="auto"></audio>
-	
-	Dual tones<br/>
-  <button onclick="play_tone_duo(1);">Tone 1</button>
-	<button onclick="play_tone_duo(2);">Tone 2</button>
- 	<button onclick="play_tone_duo(3);">Tone 3</button>
- 	<button onclick="play_tone_duo(4);">Tone 4</button>
- 	<button onclick="play_tone_duo(5);">Tone 5</button>
- 	<button onclick="play_tone_duo(6);">Tone 6</button>
- 	<button onclick="play_tone_duo(7);">Tone 7</button>
- 	<button onclick="play_tone_duo(8);">Tone 8</button>
- 	<button onclick="play_tone_duo(9);">Tone 9</button>
+    <audio id="tone1d" src="tones/1d.wav" preload="auto"></audio>
+    <audio id="tone2d" src="tones/2d.wav" preload="auto"></audio>
+    <audio id="tone3d" src="tones/3d.wav" preload="auto"></audio>
+    <audio id="tone4d" src="tones/4d.wav" preload="auto"></audio>
+    <audio id="tone5d" src="tones/5d.wav" preload="auto"></audio>
+    <audio id="tone6d" src="tones/6d.wav" preload="auto"></audio>
+    <audio id="tone7d" src="tones/7d.wav" preload="auto"></audio>
+    <audio id="tone8d" src="tones/8d.wav" preload="auto"></audio>
+    <audio id="tone9d" src="tones/9d.wav" preload="auto"></audio>
 
-  	<script>
-		function play_tone_duo(c) {
-			var tonec = document.getElementById("tone" + c + "d");
-				tonec.play();
-  		}
-  	</script>
+    <form
+      class="tone-form"
+      method="post"
+      action="https://script.google.com/macros/s/AKfycbyrf0FGkVvGaLAFwXQAlMY79_hIGB7fPmCBHa1JgkaChBEe52Lm9vYDXeKA4q1Pn6U/exec"
+      onsubmit="return confirm('Submit selected tones?');"
+    >
+      <div>Dual tones</div>
+
+      <div class="tone-row">
+        <button id="tone1" type="button" onclick="play_tone_duo(1);">Tone 1</button>
+        <label><input type="checkbox" name="tone1" id="checkbox-tone1"> tone1</label>
+      </div>
+      <div class="tone-row">
+        <button id="tone2" type="button" onclick="play_tone_duo(2);">Tone 2</button>
+        <label><input type="checkbox" name="tone2" id="checkbox-tone2"> tone2</label>
+      </div>
+      <div class="tone-row">
+        <button id="tone3" type="button" onclick="play_tone_duo(3);">Tone 3</button>
+        <label><input type="checkbox" name="tone3" id="checkbox-tone3"> tone3</label>
+      </div>
+      <div class="tone-row">
+        <button id="tone4" type="button" onclick="play_tone_duo(4);">Tone 4</button>
+        <label><input type="checkbox" name="tone4" id="checkbox-tone4"> tone4</label>
+      </div>
+      <div class="tone-row">
+        <button id="tone5" type="button" onclick="play_tone_duo(5);">Tone 5</button>
+        <label><input type="checkbox" name="tone5" id="checkbox-tone5"> tone5</label>
+      </div>
+      <div class="tone-row">
+        <button id="tone6" type="button" onclick="play_tone_duo(6);">Tone 6</button>
+        <label><input type="checkbox" name="tone6" id="checkbox-tone6"> tone6</label>
+      </div>
+      <div class="tone-row">
+        <button id="tone7" type="button" onclick="play_tone_duo(7);">Tone 7</button>
+        <label><input type="checkbox" name="tone7" id="checkbox-tone7"> tone7</label>
+      </div>
+      <div class="tone-row">
+        <button id="tone8" type="button" onclick="play_tone_duo(8);">Tone 8</button>
+        <label><input type="checkbox" name="tone8" id="checkbox-tone8"> tone8</label>
+      </div>
+      <div class="tone-row">
+        <button id="tone9" type="button" onclick="play_tone_duo(9);">Tone 9</button>
+        <label><input type="checkbox" name="tone9" id="checkbox-tone9"> tone9</label>
+      </div>
+
+      <button type="submit">Submit</button>
+    </form>
+
+    <script>
+      function play_tone_duo(c) {
+        var tonec = document.getElementById("tone" + c + "d");
+        tonec.play();
+      }
+    </script>
   </body>
 </html>
